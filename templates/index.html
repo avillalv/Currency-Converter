@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+        <h1>Currency Converter</h1>
+        <form action="/convert" method="post">
+            <div class="form">
+                <label for="from_currency">From:</label>
+                <select id="from_currency" name="from_currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="MXN">MXN</option>
+                    <!-- Add more options as needed -->
+                </select><br><br>
+                
+                <label for="to_currency">To:</label>
+                <select id="to_currency" name="to_currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="MXN">MXN</option>
+                    <!-- Add more options as needed -->
+                </select><br><br>
+            </div>
+            
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" name="amount"><br><br>
+            
+            <input type="submit" value="Convert">
+        </form>
+        <div id="result"></div>
+
+        <script>
+            document.querySelector('form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = new FormData(this);
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    body: form
+                });
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error); // Display the error message
+                } else {
+                    document.getElementById('result').innerText = data.result; // Display the result
+                }
+            });
+        </script>
+        </div>
+    </div>
+</body>
+</html>
